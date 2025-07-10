@@ -1,132 +1,125 @@
-# 🚀 Web Performance Suite
+# 📦 SKU Image Exporter
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+![Python](https://img.shields.io/badge/Python-3.6%2B-blue)
+![Interface](https://img.shields.io/badge/GUI-Tkinter-informational)
+![Sistema](https://img.shields.io/badge/Sistema-Desktop-lightgrey)
+![Entrada](https://img.shields.io/badge/Suporte-CSV%20%7C%20XLSX-orange)
+![API](https://img.shields.io/badge/API-VTEX-red)
+![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
+![Licença](https://img.shields.io/badge/Licença-MIT-green)
 
-Aplicação desktop interativa composta por dois módulos que permitem analisar, visualizar e gerar relatórios detalhados de performance web com base nas **Core Web Vitals** do Google.
+🖥️ Aplicação desktop para exportar URLs de imagens de SKUs da plataforma VTEX.
 
----
+## ✨ Funcionalidades
 
-## 📦 Componentes
+- 🖼️ Exporta URLs de imagens de produtos da VTEX
+- 📄 Suporte a arquivos CSV e Excel (XLSX)
+- 🧑‍💻 Interface gráfica amigável
+- 👀 Preview dos resultados
+- ⚙️ Processamento em segundo plano
 
-### 1. [`web-performance-analyzer`](https://github.com/MatheusRenzo/web-performance-analyzer)
+## 🧰 Requisitos
 
-Coleta automática de métricas do PageSpeed Insights da Google, para URLs públicas em dispositivos **mobile** e **desktop**.
+- 🐍 Python 3.6+
+- 📦 Pacotes listados no `requirements.txt`
 
-**Principais recursos:**
+## ⚙️ Instalação
 
-- Coleta de métricas como LCP, CLS, FCP, TBT, etc.
-- Interface amigável para análise por URL
-- Exportação dos resultados para `.xlsx`
-- Logs e cancelamento em tempo real
-
-**Requisitos:**
-
-- Python 3.7 ou superior
-- Google Chrome + ChromeDriver
-
-**Uso:**
-
+1. Clone o repositório:
 ```bash
-git clone https://github.com/MatheusRenzo/web-performance-analyzer.git
-cd web-performance-analyzer
-pip install -r requirements.txt
-python web_performance_analyzer.py
+git clone https://github.com/seu-usuario/sku-image-exporter.git
+cd sku-image-exporter
 ```
 
----
-
-### 2. [`web-performance-report`](https://github.com/seu-usuario/web-performance-report)
-
-Analisa os dados exportados do módulo anterior ou qualquer outro arquivo `.csv/.xlsx` com métricas Core Web Vitals, gera gráficos e produz um relatório **interativo em HTML**.
-
-**Funcionalidades:**
-
-- Leitura de arquivos `.csv` ou `.xlsx`
-- Geração de gráficos com benchmarks
-- Tendências por métrica, data e contexto
-- Exportação de relatório completo com insights técnicos
-
-**Instalação:**
+2. Crie um ambiente virtual (opcional):
 
 ```bash
-git clone https://github.com/seu-usuario/web-performance-report.git
-cd web-performance-report
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate  # Windows
+```
+
+3. Instale as dependências:
+
+```bash
 pip install -r requirements.txt
 ```
 
-**Uso:**
+## ▶️ Uso
+
+Execute o aplicativo:
 
 ```bash
-python main.py
+python sku_image_exporter.py
 ```
 
----
+- 🔐 Preencha suas credenciais VTEX (API Key e API Token)
+- 📁 Selecione um arquivo CSV ou Excel contendo SKUs
+- 🧾 Selecione a coluna que contém os SKUs
+- 🚀 Clique em "OBTER URLs DAS IMAGENS"
+- 💾 Os resultados serão salvos automaticamente na área de trabalho
 
-## 🧾 Estrutura Esperada dos Dados
+## ⚙️ Configuração
 
-O arquivo de entrada deve conter:
+- 🛠️ As credenciais VTEX podem ser obtidas no admin da VTEX
+- 🗂️ O arquivo de entrada deve conter uma coluna com IDs de SKU
+- 📤 O arquivo de saída é gerado em CSV na área de trabalho
 
-- `Data` (formato: `YYYY-MM-DD HH-MM`)
-- `Métrica` (ex: `LCP`, `FCP`, etc.)
-- `Valor` (ex: `1.8s`, `120ms`, `0.15`)
-- `Contexto` (ex: `Mobile - URL atual`, `Desktop - Origem`)
+## 🗂️ Estrutura do Projeto
 
-> O `web-performance-analyzer` já gera arquivos neste padrão automaticamente.
+```
+sku-image-exporter/
+├── sku_image_exporter.py  # Código principal
+├── requirements.txt       # Dependências
+└── README.md              # Documentação
+```
 
----
+## 📜 Licença
 
-## 📈 Métricas Suportadas
-
-| Métrica | Significado | Unidade | Bom | Ruim |
-|--------|-------------|---------|-----|------|
-| LCP | Largest Contentful Paint | s | < 2.5 | > 4.0 |
-| FCP | First Contentful Paint | s | < 1.8 | > 3.0 |
-| INP | Interaction to Next Paint | ms | < 200 | > 500 |
-| CLS | Cumulative Layout Shift | (sem unidade) | < 0.1 | > 0.25 |
-| TTFB | Time to First Byte | s | < 0.8 | > 1.8 |
-
----
-
-## 📁 Saída Final
-
-- Gráficos `.png` por métrica
-- Arquivo `relatorio_performance.html` com:
-  - Benchmarks
-  - Tendências e estatísticas
-  - Sugestões técnicas de melhoria
-  - Visual estilizado e intuitivo
+Este projeto está licenciado sob a licença MIT.
 
 ---
 
-## 🧠 Tecnologias Usadas
+## 🛠️ Principais Alterações
 
-- Python 3
-- Pandas, Numpy
-- Matplotlib, Scipy
-- Tkinter
-- Selenium (analyzer)
-- HTML + CSS embutido
+1. **🔐 Remoção de credenciais**:
+   - As credenciais foram completamente removidas do código
+   - Adicionados campos na interface para o usuário inserir suas próprias credenciais
 
----
+2. **🌐 Dinamização da URL da API**:
+   - Implementada função `get_account_name()` para extrair o nome da conta das credenciais
+   - URL da API construída dinamicamente com base nas credenciais fornecidas
 
-## ⚠️ Observações
+3. **🎨 Melhorias na interface**:
+   - Adicionado seção específica para credenciais
+   - Mensagens de erro mais claras para credenciais ausentes
+   - Feedback visual aprimorado
 
-- Sites com proteção anti-bot podem bloquear análises automáticas
-- Necessário ChromeDriver compatível com sua versão do Chrome
-- Análise pode demorar de 1 a 2 minutos por URL
+4. **📝 Documentação completa**:
+   - README com instruções de instalação e uso
+   - Arquivo requirements.txt com dependências
+   - Estrutura de projeto clara
 
----
+💡 Para usar o aplicativo, basta executar os passos de instalação no README e preencher com suas próprias credenciais VTEX quando o programa for executado.
 
-## 🧑‍💻 Autor
+### 🤝 Contribuição
 
-Desenvolvido por [Matheus Renzo](mailto:matheus.renzo.gama@gmail.com)  
-Instagram: [@matheusrenzo.exe](https://instagram.com/matheusrenzo.exe)  
-GitHub: [@MatheusRenzo](https://github.com/MatheusRenzo)
+Contribuições são bem-vindas! Siga estes passos:
 
----
+Faça um fork do projeto
 
-## 📄 Licença
+Crie sua branch (git checkout -b feature/sua-feature)
 
-Distribuído sob a licença MIT. Veja [LICENSE](LICENSE) para mais detalhes.
+Faça commit das mudanças (git commit -m 'Adiciona nova funcionalidade')
+
+Faça push para a branch (git push origin feature/sua-feature)
+
+Abra um Pull Request
+
+### 📄 Licença
+
+Distribuído sob a licença MIT. Veja LICENSE para mais informações.
+
+### ✉️ Contato
+
+Matheus Renzo - @matheusrenzo.exe (intagram) - matheus.renzo.gama@gmail.com 
