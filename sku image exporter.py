@@ -11,7 +11,7 @@ class SkuImageExporterApp:
     def __init__(self, root):
         self.root = root
         self.root.title("SKU Image Exporter")
-        self.root.geometry("900x750")
+        self.root.geometry("900x800")  # Aumentei um pouco a altura para o novo campo
         self.root.configure(bg="#f0f0f0")
         
         # Variáveis de controle
@@ -25,6 +25,7 @@ class SkuImageExporterApp:
         # Configuração de credenciais (serão solicitadas ao usuário)
         self.API_KEY = ""
         self.API_TOKEN = ""
+        self.ACCOUNT_NAME = ""  # Novo campo para o nome da conta
         
         # Configuração de saída
         self.DESKTOP_PATH = os.path.join(os.path.expanduser('~'), 'Desktop', 'sku_images.csv')
@@ -56,15 +57,20 @@ class SkuImageExporterApp:
         )
         cred_frame.pack(fill="x", padx=15, pady=10)
         
+        # Account Name (Novo campo)
+        tk.Label(cred_frame, text="Account Name:", bg="#f0f0f0", font=("Arial", 9)).grid(row=0, column=0, padx=5, pady=2, sticky="e")
+        self.account_name_entry = tk.Entry(cred_frame, width=50, font=("Arial", 9))
+        self.account_name_entry.grid(row=0, column=1, padx=5, pady=2, sticky="w")
+        
         # API Key
-        tk.Label(cred_frame, text="API Key:", bg="#f0f0f0", font=("Arial", 9)).grid(row=0, column=0, padx=5, pady=2, sticky="e")
+        tk.Label(cred_frame, text="API Key:", bg="#f0f0f0", font=("Arial", 9)).grid(row=1, column=0, padx=5, pady=2, sticky="e")
         self.api_key_entry = tk.Entry(cred_frame, width=50, font=("Arial", 9))
-        self.api_key_entry.grid(row=0, column=1, padx=5, pady=2, sticky="w")
+        self.api_key_entry.grid(row=1, column=1, padx=5, pady=2, sticky="w")
         
         # API Token
-        tk.Label(cred_frame, text="API Token:", bg="#f0f0f0", font=("Arial", 9)).grid(row=1, column=0, padx=5, pady=2, sticky="e")
+        tk.Label(cred_frame, text="API Token:", bg="#f0f0f0", font=("Arial", 9)).grid(row=2, column=0, padx=5, pady=2, sticky="e")
         self.api_token_entry = tk.Entry(cred_frame, width=50, font=("Arial", 9), show="*")
-        self.api_token_entry.grid(row=1, column=1, padx=5, pady=2, sticky="w")
+        self.api_token_entry.grid(row=2, column=1, padx=5, pady=2, sticky="w")
         
         # Frame de arquivo
         file_frame = tk.LabelFrame(
@@ -254,7 +260,12 @@ class SkuImageExporterApp:
         # Obter credenciais da interface
         self.API_KEY = self.api_key_entry.get().strip()
         self.API_TOKEN = self.api_token_entry.get().strip()
+        self.ACCOUNT_NAME = self.account_name_entry.get().strip()  # Obter o account name
         
+        if not self.ACCOUNT_NAME:
+            messagebox.showerror("Erro", "Preencha o Account Name antes de continuar!")
+            return
+            
         if not self.API_KEY or not self.API_TOKEN:
             messagebox.showerror("Erro", "Preencha as credenciais da API antes de continuar!")
             return
@@ -333,7 +344,7 @@ class SkuImageExporterApp:
                     for item in data:
                         file_location = item.get('FileLocation', '')
                         if file_location:
-                            full_url = f"https://{self.get_account_name()}.{file_location}"
+                            full_url = f"https://{self.ACCOUNT_NAME}.{file_location}"  # Usa o account name fornecido
                             result = {
                                 'SkuId': sku,
                                 'FullURL': full_url
@@ -347,15 +358,8 @@ class SkuImageExporterApp:
             self.save_results()
         self.enable_ui()
 
-    def get_account_name(self):
-        """Extrai o nome da conta das credenciais"""
-        if self.API_KEY and '-' in self.API_KEY:
-            return self.API_KEY.split('-')[0]
-        return "trackfield"
-
     def get_sku_images(self, sku_id):
-        account_name = self.get_account_name()
-        url = f"https://{account_name}.vtexcommercestable.com.br/api/catalog/pvt/stockkeepingunit/{sku_id}/file"
+        url = f"https://{self.ACCOUNT_NAME}.vtexcommercestable.com.br/api/catalog/pvt/stockkeepingunit/{sku_id}/file"
         headers = {
             "X-VTEX-API-AppKey": self.API_KEY,
             "X-VTEX-API-AppToken": self.API_TOKEN
